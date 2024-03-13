@@ -30,6 +30,13 @@ def fetch_data():
     df = conn.query('SELECT tempF, humidity, YEAR(date_add(time_stamp,INTERVAL-4 HOUR)) as year, MONTH(date_add(time_stamp,INTERVAL-4 HOUR)) as month, DAY(date_add(time_stamp,INTERVAL-4 HOUR)) as day, HOUR(date_add(time_stamp,INTERVAL-4 HOUR)) as hour, MINUTE(date_add(time_stamp,INTERVAL-4 HOUR)) as minute, SECOND(date_add(time_stamp,INTERVAL-4 HOUR)) as second, date_add(time_stamp,INTERVAL-4 HOUR) as ts FROM esp32_dht20 ORDER BY time_stamp DESC LIMIT 5760;', ttl=1)
     return df
 
+def twodigits(string):
+    if len(string)==1
+        newstring = "0" + string
+    else:
+        newstring = string
+    return newstring
+
 while True:
     # call the fetch_data function and store results in the dataframe named data
     data = fetch_data()
@@ -47,9 +54,9 @@ while True:
     month = str(data.at[data.index[0],"month"])
     day = str(data.at[data.index[0],"day"])
     year = str(data.at[data.index[0],"year"])
-    hour = str(data.at[data.index[0],"hour"])
-    minute = str(data.at[data.index[0],"minute"])
-    second = str(data.at[data.index[0],"second"])
+    hour = twodigits(str(data.at[data.index[0],"hour"]))
+    minute = twodigits(str(data.at[data.index[0],"minute"]))
+    second = twodigits(str(data.at[data.index[0],"second"]))
 
     #forming a formatted string for the date and time by concatenating several strings 
     lasttime_str = "Time of Last Data: "+ month + "/" + day + "/" + year + " at "+ hour + ":" + minute + ":" + second
